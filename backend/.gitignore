@@ -1,0 +1,9 @@
+db.sqlite3
+/backend/settings.py
+/app/migrations
+venv
+*.log
+*.pyc
+__pycache__/
+/media/
+.env

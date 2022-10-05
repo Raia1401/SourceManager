@@ -1,0 +1,36 @@
+version: '2.5'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dokerfile_backend
+    ports:
+      - 8000:8000
+    volumes:
+       - ./backend/:/app/backend
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on: 
+      - db
+  
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user_example
+      - POSTGRES_PASSWORD=user_example
+      - POSTGRES_DB=react_dj_db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dokerfile_frontend
+    volumes:
+      - ./frontend/:/usr/src/app/frontend:cached
+    command: sh -c "yarn start"
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
